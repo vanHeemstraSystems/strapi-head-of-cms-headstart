@@ -1,6 +1,6 @@
 # 100 - Introduction
 
-In our companion project **[strapi-headless-cms-headstart](https://github.com/vanHeemstraSystems/strapi-headless-cms-headstart)** will use have the API Backend for this Headless Content Management System. 
+In our companion project **[strapi-headless-cms-headstart](https://github.com/vanHeemstraSystems/strapi-headless-cms-headstart)** we will have the API Backend for this Headless Content Management System. 
 
 Updated April 2020
 
