@@ -1,5 +1,5 @@
-# strapi-head-of-cms-headstart
-Strapi Head of CMS - Headstart
+strapi-head-of-cms-headstart
+# Strapi Head of CMS - Headstart
 
 Based on "Create a food ordering app with Strapi and Next.js" at https://strapi.io/blog/nextjs-react-hooks-strapi-food-app-1
 
