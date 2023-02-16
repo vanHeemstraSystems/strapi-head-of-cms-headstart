@@ -1,0 +1,66 @@
+version: "3.7"
+
+secrets:
+  proxy_password:
+    file: ./secrets/.proxy_password
+
+# See https://stackoverflow.com/questions/29261811/use-docker-compose-env-variable-in-dockerbuild-file
+services:
+
+  webui:
+    secrets:
+      - proxy_password
+    build:
+      context: ./webui
+      dockerfile: Dockerfile.dev
+      args: # from env_file
+        UNIQUE_NAMESPACE: ${UNIQUE_NAMESPACE}
+        IMAGE_REPOSITORY: ${IMAGE_REPOSITORY}
+        PROXY_USER: ${PROXY_USER}
+        # PROXY_PASSWORD: ${PROXY_PASSWORD}
+        PROXY_FQDN: ${PROXY_FQDN}
+        PROXY_PORT: ${PROXY_PORT}
+        NODE_ENV: development
+    env_file:
+      - .env
+    container_name: ${UNIQUE_NAMESPACE}-webui-dev
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./webui:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPULLING=true
+    #  - PROXY_PASSWORD='/run/secrets/proxy_password'
+
+  cms:
+    secrets:
+      - proxy_password
+    build:
+      context: ./cms
+      dockerfile: Dockerfile.dev
+      args: # from env_file
+        UNIQUE_NAMESPACE: ${UNIQUE_NAMESPACE}
+        IMAGE_REPOSITORY: ${IMAGE_REPOSITORY}
+        PROXY_USER: ${PROXY_USER}
+        PROXY_PASSWORD: ${PROXY_PASSWORD}
+        PROXY_FQDN: ${PROXY_FQDN}
+        PROXY_PORT: ${PROXY_PORT}
+        NODE_ENV: development
+        BASE_VERSION: 14-alpine
+        USER: ${USER}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL_DEV}
+    env_file:
+      - .env
+    container_name: ${UNIQUE_NAMESPACE}-cms-dev
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "1436:1337"
+    volumes:
+      - ./cms:/srv/app
+    #  - /cms/node_modules # REMOVE
+    # environment:
+    #  - PROXY_PASSWORD='/run/secrets/proxy_password'
